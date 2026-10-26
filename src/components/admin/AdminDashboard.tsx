@@ -27,6 +27,7 @@ import {
   Sparkles,
   Croissant,
 } from 'lucide-react';
+import { normalizeImageUrl, handleImageError } from '../../utils/imageHelper';
 
 export const AdminDashboard: React.FC = () => {
   const {
@@ -76,7 +77,7 @@ export const AdminDashboard: React.FC = () => {
     calories: 120,
     description: '',
     ingredientsStr: '',
-    image: '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg',
+    image: '/images/coffee_flat_white_cup_1790603521645.jpg',
     isAvailable: true,
     isSpecialOffer: false,
     popular: false,
@@ -161,8 +162,8 @@ export const AdminDashboard: React.FC = () => {
       ingredientsStr: type === 'drink' ? 'Эспрессо, Молоко' : 'Сливочное масло, Мука',
       image:
         type === 'drink'
-          ? '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg'
-          : '/src/assets/images/pastry_artisan_croissant_1790603557602.jpg',
+          ? '/images/coffee_flat_white_cup_1790603521645.jpg'
+          : '/images/pastry_artisan_croissant_1790603557602.jpg',
       isAvailable: true,
       isSpecialOffer: false,
       popular: false,
@@ -547,8 +548,8 @@ export const AdminDashboard: React.FC = () => {
                         ingredients: calcCategory === 'drink' ? ['Спешелти кофе', 'Молоко'] : ['Рецепт NAZ'],
                         image:
                           calcCategory === 'drink'
-                            ? '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg'
-                            : '/src/assets/images/pastry_artisan_croissant_1790603557602.jpg',
+                            ? '/images/coffee_flat_white_cup_1790603521645.jpg'
+                            : '/images/pastry_artisan_croissant_1790603557602.jpg',
                         isAvailable: true,
                         popular: true,
                       });
@@ -623,10 +624,11 @@ export const AdminDashboard: React.FC = () => {
                           <td className="py-3.5 px-4">
                             <div className="flex items-center gap-3">
                               <img
-                                src={item.image}
+                                src={normalizeImageUrl(item.image)}
                                 alt={item.name}
                                 className="w-10 h-10 rounded-xl object-cover border border-[#e0d3c5]"
                                 referrerPolicy="no-referrer"
+                                onError={(e) => handleImageError(e, item.category)}
                               />
                               <div>
                                 <div className="font-bold text-[#2c221a]">{item.name}</div>

@@ -19,16 +19,17 @@ import {
   ChevronUp,
   X,
 } from 'lucide-react';
+import { normalizeImageUrl, handleImageError } from '../utils/imageHelper';
 
 const PRESET_PHOTOS = [
-  { label: 'Флэт Уайт / Капучино', url: '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg' },
-  { label: 'Кемекс / Фильтр', url: '/src/assets/images/coffee_pourover_chemex_1790603537900.jpg' },
-  { label: 'Авторский Раф', url: '/src/assets/images/coffee_specialty_raf_1790603574318.jpg' },
-  { label: 'Ремесленный круассан', url: '/src/assets/images/pastry_artisan_croissant_1790603557602.jpg' },
-  { label: 'Сырники со сметаной', url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80' },
-  { label: 'Авокадо тост', url: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80' },
-  { label: 'Чизкейк Сан-Себастьян', url: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80' },
-  { label: 'Матча Латте', url: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80' },
+  { label: 'Флэт Уайт / Капучино', url: '/images/coffee_flat_white_cup_1790603521645.jpg' },
+  { label: 'Кемекс / Фильтр', url: '/images/coffee_pourover_chemex_1790603537900.jpg' },
+  { label: 'Авторский Раф', url: '/images/coffee_specialty_raf_1790603574318.jpg' },
+  { label: 'Ремесленный круассан', url: '/images/pastry_artisan_croissant_1790603557602.jpg' },
+  { label: 'Сырники со сметаной', url: '/images/syrniki.jpg' },
+  { label: 'Авокадо тост', url: '/images/avocado_toast.jpg' },
+  { label: 'Чизкейк Сан-Себастьян', url: '/images/cheesecake.jpg' },
+  { label: 'Матча Латте', url: '/images/matcha_latte.jpg' },
   { label: 'Ягодный чай', url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80' },
 ];
 
@@ -338,10 +339,11 @@ export const MenuSection: React.FC = () => {
                 {/* Image Section */}
                 <div className="relative aspect-4/3 overflow-hidden bg-[#f5ede3]">
                   <img
-                    src={item.image}
+                    src={normalizeImageUrl(item.image)}
                     alt={item.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     referrerPolicy="no-referrer"
+                    onError={(e) => handleImageError(e, item.category)}
                   />
                   <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                     <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur-xs text-[#9c6530] shadow-xs">
@@ -642,7 +644,12 @@ export const MenuSection: React.FC = () => {
                   {/* Photo Preview */}
                   <div className="w-24 h-24 rounded-2xl border-2 border-dashed border-[#ded0c1] overflow-hidden bg-[#faf6f0] shrink-0 flex items-center justify-center shadow-xs">
                     {newDishImage ? (
-                      <img src={newDishImage} alt="Предпросмотр" className="w-full h-full object-cover" />
+                      <img
+                        src={normalizeImageUrl(newDishImage)}
+                        alt="Предпросмотр"
+                        className="w-full h-full object-cover"
+                        onError={(e) => handleImageError(e, newDishCategory)}
+                      />
                     ) : (
                       <ImageIcon className="w-8 h-8 text-stone-300" />
                     )}

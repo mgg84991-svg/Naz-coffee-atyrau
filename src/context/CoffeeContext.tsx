@@ -26,6 +26,7 @@ import {
   INITIAL_BOOKINGS,
   INITIAL_REPORTS,
 } from '../data/initialData';
+import { normalizeImageUrl } from '../utils/imageHelper';
 
 interface CoffeeContextType {
   // Brand
@@ -164,7 +165,18 @@ export const CoffeeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   // Menu (drinks and dishes)
   const [menu, setMenu] = useState<MenuItem[]>(() => {
     const saved = localStorage.getItem(`${STORAGE_PREFIX}menu`);
-    return saved ? JSON.parse(saved) : INITIAL_MENU;
+    if (saved) {
+      try {
+        const parsed: MenuItem[] = JSON.parse(saved);
+        return parsed.map((item) => ({
+          ...item,
+          image: normalizeImageUrl(item.image),
+        }));
+      } catch {
+        return INITIAL_MENU;
+      }
+    }
+    return INITIAL_MENU;
   });
 
   // Stock
@@ -176,7 +188,21 @@ export const CoffeeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   // Cart
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem(`${STORAGE_PREFIX}cart`);
-    return saved ? JSON.parse(saved) : [];
+    if (saved) {
+      try {
+        const parsed: CartItem[] = JSON.parse(saved);
+        return parsed.map((item) => ({
+          ...item,
+          menuItem: {
+            ...item.menuItem,
+            image: normalizeImageUrl(item.menuItem.image),
+          },
+        }));
+      } catch {
+        return [];
+      }
+    }
+    return [];
   });
 
   // Orders

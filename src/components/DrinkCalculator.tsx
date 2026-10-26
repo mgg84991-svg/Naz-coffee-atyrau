@@ -10,6 +10,7 @@ import {
   ShoppingBag,
   Info,
 } from 'lucide-react';
+import { normalizeImageUrl, handleImageError } from '../utils/imageHelper';
 
 interface DrinkBaseOption {
   id: string;
@@ -30,7 +31,7 @@ const DRINK_BASES: DrinkBaseOption[] = [
     baseCalories: 140,
     category: 'coffee',
     description: 'Идеальный баланс плотного эспрессо и шелковистой молочной пенки',
-    image: '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg',
+    image: '/images/coffee_flat_white_cup_1790603521645.jpg',
     defaultMilk: true,
   },
   {
@@ -40,7 +41,7 @@ const DRINK_BASES: DrinkBaseOption[] = [
     baseCalories: 120,
     category: 'coffee',
     description: 'Двойной шот ристретто с бархатной текстурой фермерского молока',
-    image: '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg',
+    image: '/images/coffee_flat_white_cup_1790603521645.jpg',
     defaultMilk: true,
   },
   {
@@ -50,7 +51,7 @@ const DRINK_BASES: DrinkBaseOption[] = [
     baseCalories: 180,
     category: 'coffee',
     description: 'Мягкий молочный кофе с легкой воздушной пенкой',
-    image: '/src/assets/images/coffee_specialty_raf_1790603574318.jpg',
+    image: '/images/coffee_specialty_raf_1790603574318.jpg',
     defaultMilk: true,
   },
   {
@@ -60,7 +61,7 @@ const DRINK_BASES: DrinkBaseOption[] = [
     baseCalories: 260,
     category: 'specialty',
     description: 'Взбивается со сливками 10% и натуральной ванилью до шелковистой текстуры',
-    image: '/src/assets/images/coffee_specialty_raf_1790603574318.jpg',
+    image: '/images/coffee_specialty_raf_1790603574318.jpg',
     defaultMilk: true,
   },
   {
@@ -70,7 +71,7 @@ const DRINK_BASES: DrinkBaseOption[] = [
     baseCalories: 5,
     category: 'specialty',
     description: 'Ручной капельный пролив подчеркивает ноты бергамота и персика',
-    image: '/src/assets/images/coffee_pourover_chemex_1790603537900.jpg',
+    image: '/images/coffee_pourover_chemex_1790603537900.jpg',
     defaultMilk: false,
   },
   {
@@ -80,7 +81,7 @@ const DRINK_BASES: DrinkBaseOption[] = [
     baseCalories: 110,
     category: 'tea',
     description: 'Японский церемониальный зеленый чай Uji на растительном молоке',
-    image: '/src/assets/images/coffee_specialty_raf_1790603574318.jpg',
+    image: '/images/matcha_latte.jpg',
     defaultMilk: true,
   },
 ];
@@ -518,10 +519,11 @@ export const DrinkCalculator: React.FC = () => {
             {/* Drink Snapshot */}
             <div className="flex items-center gap-3">
               <img
-                src={selectedBase.image}
+                src={normalizeImageUrl(selectedBase.image)}
                 alt={selectedBase.name}
                 className="w-16 h-16 rounded-2xl object-cover border border-[#e4d8cb] shadow-2xs"
                 referrerPolicy="no-referrer"
+                onError={(e) => handleImageError(e, selectedBase.category)}
               />
               <div>
                 <h4 className="font-display text-lg font-bold text-[#2c221a]">

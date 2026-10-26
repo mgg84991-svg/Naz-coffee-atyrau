@@ -2,6 +2,7 @@ import React from 'react';
 import { CoffeeProvider, useCoffee } from './context/CoffeeContext';
 import { Header } from './components/Header';
 import { MenuSection } from './components/MenuSection';
+import { DrinkCalculator } from './components/DrinkCalculator';
 import { CartDrawer } from './components/CartDrawer';
 import { UserCabinetModal } from './components/UserCabinetModal';
 import { TableBookingModal } from './components/TableBookingModal';
@@ -9,6 +10,9 @@ import { ReviewModal } from './components/ReviewModal';
 import { OwnerPinModal } from './components/OwnerPinModal';
 import { PushNotificationToast } from './components/PushNotificationToast';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { PWAInstallBanner } from './components/PWAInstallBanner';
+import { OfflineIndicator } from './components/OfflineIndicator';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import {
   UtensilsCrossed,
   Calendar,
@@ -19,11 +23,14 @@ import {
   Coffee,
   MessageSquare,
   User,
+  Sparkles,
 } from 'lucide-react';
 
 const MainContent: React.FC = () => {
   const {
     viewMode,
+    guestTab,
+    setGuestTab,
     brand,
     setIsBookingModalOpen,
     setIsReviewModalOpen,
@@ -32,20 +39,46 @@ const MainContent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[#faf7f2] text-[#231c16]">
+      {/* PWA Mobile App Install Top Banner */}
+      <PWAInstallBanner />
+
+      {/* Connectivity Status Indicator */}
+      <OfflineIndicator />
+
+      {/* Main Header */}
       <Header />
 
-      <main className="flex-1">
-        {/* MAIN VIEW: GUEST VIEW (ONLY MENU AND BOOKING) */}
+      <main className="flex-1 pb-24 md:pb-12">
+        {/* MAIN VIEW: GUEST VIEW (MENU, CALCULATOR, BOOKING) */}
         {viewMode === 'guest' && (
-          <div className="space-y-6 pb-16">
-            {/* Guest Action Bar: ONLY Menu, Booking, and Review */}
+          <div className="space-y-6">
+            {/* Guest Action Bar: Menu, Calculator, Booking, Review */}
             <div className="border-b border-[#e8dfd5] bg-[#ffffff] sticky top-16 z-30 shadow-xs">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto scrollbar-none py-2.5 gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-[#935a22] text-white shadow-xs">
+                  <button
+                    onClick={() => setGuestTab('menu')}
+                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${
+                      guestTab === 'menu'
+                        ? 'bg-[#935a22] text-white shadow-xs'
+                        : 'text-[#705e4f] hover:text-[#231c16] hover:bg-[#faf6f0] border border-[#e8dfd5]'
+                    }`}
+                  >
                     <UtensilsCrossed className="w-4 h-4" />
                     <span>Меню (Напитки и Блюда)</span>
-                  </div>
+                  </button>
+
+                  <button
+                    onClick={() => setGuestTab('calculator')}
+                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${
+                      guestTab === 'calculator'
+                        ? 'bg-[#935a22] text-white shadow-xs'
+                        : 'text-[#705e4f] hover:text-[#231c16] hover:bg-[#faf6f0] border border-[#e8dfd5]'
+                    }`}
+                  >
+                    <Sparkles className="w-4 h-4 text-[#935a22]" />
+                    <span>Конструктор напитка</span>
+                  </button>
 
                   <button
                     onClick={() => setIsBookingModalOpen(true)}
@@ -78,14 +111,22 @@ const MainContent: React.FC = () => {
               </div>
             </div>
 
-            {/* Menu of Drinks and Food */}
-            <MenuSection />
+            {/* Active Guest Tab View */}
+            {guestTab === 'menu' && <MenuSection />}
+            {guestTab === 'calculator' && (
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <DrinkCalculator />
+              </div>
+            )}
           </div>
         )}
 
         {/* OWNER & ADMIN DASHBOARD */}
         {viewMode === 'admin' && <AdminDashboard />}
       </main>
+
+      {/* Native Mobile Bottom Navigation Bar (Fixed at bottom on phones) */}
+      <MobileBottomNav />
 
       {/* Global Modals */}
       <CartDrawer />

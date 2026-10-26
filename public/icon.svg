@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="coffeeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c1e14" />
+      <stop offset="50%" stop-color="#1f150e" />
+      <stop offset="100%" stop-color="#140d09" />
+    </linearGradient>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8bf83" />
+      <stop offset="50%" stop-color="#c89257" />
+      <stop offset="100%" stop-color="#935a22" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+  </defs>
+
+  <!-- Background rounded canvas -->
+  <rect width="512" height="512" rx="112" fill="url(#coffeeBg)" />
+
+  <!-- Elegant inner border ring -->
+  <rect x="24" y="24" width="464" height="464" rx="92" fill="none" stroke="#c89257" stroke-opacity="0.3" stroke-width="3" />
+
+  <!-- Coffee Cup Group (Centered inside 80% safe zone for maskable support) -->
+  <g transform="translate(256, 230)" filter="url(#shadow)">
+    <!-- Steam lines -->
+    <path d="M-40,-100 C-50,-70 -30,-50 -40,-20" fill="none" stroke="url(#goldGradient)" stroke-width="6" stroke-linecap="round" opacity="0.85" />
+    <path d="M0,-115 C-12,-80 12,-60 0,-25" fill="none" stroke="url(#goldGradient)" stroke-width="7" stroke-linecap="round" />
+    <path d="M40,-100 C30,-70 50,-50 40,-20" fill="none" stroke="url(#goldGradient)" stroke-width="6" stroke-linecap="round" opacity="0.85" />
+
+    <!-- Coffee Cup Body -->
+    <path d="M-80,-10 L80,-10 C76,60 52,95 0,95 C-52,95 -76,60 -80,-10 Z" fill="url(#goldGradient)" />
+
+    <!-- Cup Rim Top highlight -->
+    <ellipse cx="0" cy="-10" rx="80" ry="16" fill="#f5ede3" />
+    <ellipse cx="0" cy="-10" rx="72" ry="12" fill="#3a2517" />
+    <ellipse cx="0" cy="-10" rx="66" ry="9" fill="#24150c" />
+
+    <!-- Cup Handle -->
+    <path d="M80,8 C115,8 118,65 72,70" fill="none" stroke="url(#goldGradient)" stroke-width="14" stroke-linecap="round" />
+
+    <!-- Saucer / Plate -->
+    <path d="M-105,108 C-60,118 60,118 105,108 C115,106 120,116 112,122 C80,136 -80,136 -112,122 C-120,116 -115,106 -105,108 Z" fill="url(#goldGradient)" />
+  </g>
+
+  <!-- Brand Typography "NAZ COFFEE" -->
+  <text x="256" y="415" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="44" font-weight="900" letter-spacing="4" fill="#ffffff" text-anchor="middle">
+    NAZ COFFEE
+  </text>
+  <text x="256" y="445" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" letter-spacing="6" fill="#c89257" text-anchor="middle">
+    ATYRAU
+  </text>
+</svg>

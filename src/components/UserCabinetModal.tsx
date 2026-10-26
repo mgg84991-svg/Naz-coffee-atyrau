@@ -32,6 +32,8 @@ import {
   MessageSquare,
   ShoppingBag,
 } from 'lucide-react';
+import { normalizeImageUrl, handleImageError } from '../utils/imageHelper';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export const UserCabinetModal: React.FC = () => {
   const {
@@ -227,7 +229,7 @@ export const UserCabinetModal: React.FC = () => {
   const [newDishVolume, setNewDishVolume] = useState('350 мл');
   const [newDishDesc, setNewDishDesc] = useState('');
   const [newDishIngredients, setNewDishIngredients] = useState('Эспрессо, молоко, сироп');
-  const [newDishImage, setNewDishImage] = useState<string>('/src/assets/images/coffee_flat_white_cup_1790603521645.jpg');
+  const [newDishImage, setNewDishImage] = useState<string>('/images/coffee_flat_white_cup_1790603521645.jpg');
   const [dishCreatedNotice, setDishCreatedNotice] = useState<string | null>(null);
 
   // File upload for new dish photo
@@ -476,6 +478,10 @@ export const UserCabinetModal: React.FC = () => {
             >
               <Delete className="w-5 h-5" />
             </button>
+          </div>
+
+          <div className="pt-3 border-t border-[#f0eae3]">
+            <PWAInstallButton variant="banner" className="w-full text-xs py-2" />
           </div>
         </div>
       </div>
@@ -1225,7 +1231,12 @@ export const UserCabinetModal: React.FC = () => {
                       <div className="flex flex-col sm:flex-row items-center gap-4">
                         <div className="w-24 h-24 rounded-2xl border-2 border-dashed border-[#ded0c1] overflow-hidden bg-[#faf6f0] shrink-0 flex items-center justify-center">
                           {newDishImage ? (
-                            <img src={newDishImage} alt="Превью" className="w-full h-full object-cover" />
+                            <img
+                              src={normalizeImageUrl(newDishImage)}
+                              alt="Превью"
+                              className="w-full h-full object-cover"
+                              onError={(e) => handleImageError(e, 'coffee')}
+                            />
                           ) : (
                             <ImageIcon className="w-8 h-8 text-stone-300" />
                           )}
@@ -1249,14 +1260,14 @@ export const UserCabinetModal: React.FC = () => {
                             </p>
                             <div className="flex flex-wrap gap-1.5">
                               {[
-                                { label: 'Капучино', url: '/src/assets/images/coffee_flat_white_cup_1790603521645.jpg' },
-                                { label: 'Фильтр', url: '/src/assets/images/coffee_pourover_chemex_1790603537900.jpg' },
-                                { label: 'Раф', url: '/src/assets/images/coffee_specialty_raf_1790603574318.jpg' },
-                                { label: 'Круассан', url: '/src/assets/images/pastry_artisan_croissant_1790603557602.jpg' },
-                                { label: 'Сырники', url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80' },
-                                { label: 'Авокадо тост', url: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80' },
-                                { label: 'Чизкейк', url: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80' },
-                                { label: 'Матча', url: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=800&q=80' },
+                                { label: 'Капучино', url: '/images/coffee_flat_white_cup_1790603521645.jpg' },
+                                { label: 'Фильтр', url: '/images/coffee_pourover_chemex_1790603537900.jpg' },
+                                { label: 'Раф', url: '/images/coffee_specialty_raf_1790603574318.jpg' },
+                                { label: 'Круассан', url: '/images/pastry_artisan_croissant_1790603557602.jpg' },
+                                { label: 'Сырники', url: '/images/syrniki.jpg' },
+                                { label: 'Авокадо тост', url: '/images/avocado_toast.jpg' },
+                                { label: 'Чизкейк', url: '/images/cheesecake.jpg' },
+                                { label: 'Матча', url: '/images/matcha_latte.jpg' },
                                 { label: 'Ягодный чай', url: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80' },
                               ].map((p) => (
                                 <button
@@ -1340,9 +1351,10 @@ export const UserCabinetModal: React.FC = () => {
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <img
-                        src={item.image}
+                        src={normalizeImageUrl(item.image)}
                         alt={item.name}
                         className="w-14 h-14 rounded-2xl object-cover border border-[#e8dfd5] shrink-0"
+                        onError={(e) => handleImageError(e, item.category)}
                       />
                       <div className="min-w-0">
                         <div className="text-xs font-bold text-[#231c16] truncate">

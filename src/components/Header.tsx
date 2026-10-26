@@ -7,7 +7,9 @@ import {
   UtensilsCrossed,
   CalendarDays,
   MapPin,
+  Sparkles,
 } from 'lucide-react';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export const Header: React.FC = () => {
   const {
@@ -50,7 +52,7 @@ export const Header: React.FC = () => {
           </div>
         </button>
 
-        {/* Central Navigation Tabs for Guests: ONLY Menu and Booking (NO waiter call) */}
+        {/* Central Navigation Tabs for Guests */}
         <nav className="hidden sm:flex items-center gap-2 text-sm font-medium">
           <button
             onClick={() => {
@@ -64,7 +66,22 @@ export const Header: React.FC = () => {
             }`}
           >
             <UtensilsCrossed className="w-4 h-4" />
-            <span>Меню (Напитки и Блюда)</span>
+            <span>Меню</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setViewMode('guest');
+              setGuestTab('calculator');
+            }}
+            className={`px-3.5 py-1.5 rounded-xl transition-colors flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+              viewMode === 'guest' && guestTab === 'calculator'
+                ? 'bg-[#935a22] text-white font-bold shadow-xs'
+                : 'text-[#705e4f] hover:text-[#231c16] hover:bg-[#faf6f0]'
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-[#935a22]" />
+            <span>Конструктор напитка</span>
           </button>
 
           <button
@@ -76,9 +93,12 @@ export const Header: React.FC = () => {
           </button>
         </nav>
 
-        {/* Right Actions: User Icon (person icon), Shopping Cart */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* User Icon: simply an icon of a person */}
+        {/* Right Actions: PWA Install, User Icon, Shopping Cart */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* PWA Install Button */}
+          <PWAInstallButton variant="header" />
+
+          {/* User Icon */}
           <button
             onClick={() => setIsUserModalOpen(true)}
             className="p-2 sm:p-2.5 rounded-xl border border-[#ded0c1] bg-[#faf6f0] hover:bg-[#f0e6da] text-[#705e4f] hover:text-[#231c16] transition-colors shadow-2xs cursor-pointer flex items-center justify-center"

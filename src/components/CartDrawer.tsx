@@ -17,6 +17,7 @@ import {
   Send,
   ExternalLink,
 } from 'lucide-react';
+import { normalizeImageUrl, handleImageError } from '../utils/imageHelper';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -239,10 +240,11 @@ export const CartDrawer: React.FC = () => {
                     className="p-3.5 rounded-2xl bg-white border border-[#e8ded3] flex gap-3 items-center justify-between shadow-2xs"
                   >
                     <img
-                      src={item.menuItem.image}
+                      src={normalizeImageUrl(item.menuItem.image)}
                       alt={item.menuItem.name}
                       className="w-14 h-14 rounded-xl object-cover border border-[#e2d5c5] shrink-0"
                       referrerPolicy="no-referrer"
+                      onError={(e) => handleImageError(e, item.menuItem.category)}
                     />
 
                     <div className="flex-1 min-w-0 pr-2">

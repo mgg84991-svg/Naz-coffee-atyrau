@@ -17,6 +17,7 @@ import {
   HeartHandshake,
   Tag,
 } from 'lucide-react';
+import { normalizeImageUrl, handleImageError } from '../utils/imageHelper';
 
 export const BrandSlide: React.FC = () => {
   const {
@@ -46,10 +47,11 @@ export const BrandSlide: React.FC = () => {
       {/* Background Hero with Atmosphere and Measured Gradient Scrim */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/src/assets/images/hero_coffee_atmosphere_1790603502421.jpg"
+          src="/images/hero_coffee_atmosphere_1790603502421.jpg"
           alt="Интерьер спешелти кофейни"
           className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-105 scale-[1.02] transition-transform duration-1000"
           referrerPolicy="no-referrer"
+          onError={(e) => handleImageError(e, 'default')}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0b0a] via-[#0c0b0a]/70 to-[#0c0b0a]/30" />
         <div className="absolute inset-0 bg-radial-at-c from-transparent via-[#0c0b0a]/40 to-[#0c0b0a]/90" />
@@ -203,10 +205,11 @@ export const BrandSlide: React.FC = () => {
             {/* Featured Item Preview from Live Menu */}
             <div className="p-4 rounded-2xl bg-[#171412]/80 border border-[#332b24] backdrop-blur-xl flex items-center gap-4">
               <img
-                src={featuredCoffee.image}
+                src={normalizeImageUrl(featuredCoffee.image)}
                 alt={featuredCoffee.name}
                 className="w-20 h-20 rounded-xl object-cover border border-[#3b3228]"
                 referrerPolicy="no-referrer"
+                onError={(e) => handleImageError(e, 'coffee')}
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
