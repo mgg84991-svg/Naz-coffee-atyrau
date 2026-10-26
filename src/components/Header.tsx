@@ -93,8 +93,11 @@ export const Header: React.FC = () => {
           </button>
         </nav>
 
-        {/* Right Actions: PWA Install, User Icon, Shopping Cart */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
+        {/* Right Actions: PWA Install, Share, User Icon, Shopping Cart */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5">
+          {/* Share button */}
+          <PWAInstallButton variant="share" className="hidden sm:inline-flex" />
+
           {/* PWA Install Button */}
           <PWAInstallButton variant="header" />
 
